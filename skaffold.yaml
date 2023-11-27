@@ -1,0 +1,55 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
+  name: better-city
+build:
+  tagPolicy:
+    sha256: {}
+  local:
+    push: false
+    useDockerCLI: true
+  artifacts:
+    - image: api-gateway
+      context: services/api-gateway
+      jib: {
+        args: [
+          '-Djib.to.image=api-gateway',
+          '-Djib.container.environment=SPRING_PROFILES_ACTIVE=development',
+          '-DskipTests=true'
+        ]
+      }
+    - image: user-service
+      context: services/user-service
+      jib: {
+        args: [
+          '-Djib.to.image=user-service',
+          '-Djib.container.environment=SPRING_PROFILES_ACTIVE=development',
+          '-DskipTests=true'
+        ]
+      }
+    - image: notification-service
+      context: services/notification-service
+      jib: {
+        args: [
+          '-Djib.to.image=notification-service',
+          '-Djib.container.environment=SPRING_PROFILES_ACTIVE=development',
+          '-DskipTests=true'
+        ]
+      }
+    - image: issue-service
+      context: services/issue-service
+      jib: {
+        args: [
+          '-Djib.to.image=issue-service',
+          '-Djib.container.environment=SPRING_PROFILES_ACTIVE=development',
+          '-DskipTests=true'
+        ]
+      }
+deploy:
+  kubectl:
+    manifests:
+      - k8s/dev/*.yaml
+      - services/api-gateway/k8s/dev/*.yaml
+      - services/user-service/k8s/dev/*.yaml
+      - services/notification-service/k8s/dev/*.yaml
+      - services/issue-service/k8s/dev/*.yaml
