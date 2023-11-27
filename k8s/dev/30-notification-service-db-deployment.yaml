@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: notification-service-db
+  name: notification-service-db
+  namespace: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service-db
+  template:
+    metadata:
+      labels:
+        app: notification-service-db
+    spec:
+      containers:
+        - name: notification-service-db
+          image: postgres:11.22-bullseye
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: notification-service-db
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: notification-service-db-credentials-db
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: notification-service-db-credentials-db
+                  key: password
