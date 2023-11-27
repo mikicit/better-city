@@ -1,5 +1,5 @@
 20-gc-secret.yaml filter=git-crypt diff=git-crypt
-20-issue-service-db-credentials filter=git-crypt diff=git-crypt
-20-issue-service-db-credentials-db filter=git-crypt diff=git-crypt
-20-notification-service-db-credentials filter=git-crypt diff=git-crypt
-20-notification-service-db-credentials-db filter=git-crypt diff=git-crypt
+20-issue-service-db-credentials.yaml filter=git-crypt diff=git-crypt
+20-issue-service-db-credentials-db.yaml filter=git-crypt diff=git-crypt
+20-notification-service-db-credentials.yaml filter=git-crypt diff=git-crypt
+20-notification-service-db-credentials-db.yaml filter=git-crypt diff=git-crypt
