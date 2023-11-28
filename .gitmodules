@@ -1,0 +1,4 @@
+[submodule "services/api-gateway"]
+	path = services/api-gateway
+	url = git@github.com:mikicit/better-city-api-gateway.git
+	branch = main
