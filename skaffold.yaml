@@ -48,7 +48,23 @@ build:
 deploy:
   kubectl:
     manifests:
-      - k8s/dev/*.yaml
+      - k8s/dev/00-database-namespace.yaml
+      - k8s/dev/00-kafka-namespace.yaml
+      - k8s/dev/20-gc-secret.yaml
+      - k8s/dev/20-issue-service-db-credentials-db.yaml
+      - k8s/dev/20-issue-service-db-credentials.yaml
+      - k8s/dev/20-notification-service-db-credentials-db.yaml
+      - k8s/dev/20-notification-service-db-credentials.yaml
+      - k8s/dev/30-issue-service-db-deployment.yaml
+      - k8s/dev/30-kafka-broker-deployment.yaml
+      - k8s/dev/30-notification-service-db-deployment.yaml
+      - k8s/dev/30-zookeeper-deployment.yaml
+      - k8s/dev/40-issue-service-db-service.yaml
+      - k8s/dev/40-kafka-broker-service.yaml
+      - k8s/dev/40-notification-service-db-service.yaml
+      - k8s/dev/40-zookeeper-service.yaml
+
+      # Services
       - services/api-gateway/k8s/dev/*.yaml
       - services/user-service/k8s/dev/*.yaml
       - services/notification-service/k8s/dev/*.yaml
