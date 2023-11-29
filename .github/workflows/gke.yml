@@ -13,21 +13,23 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Git-Crypt unlock
+    - name: Git-Crypt Unlock
       uses: sliteteam/github-action-git-crypt-unlock@1.2.0
       env:
         GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
-
-    - name: Set up Google Cloud CLI
-      uses: google-github-actions/setup-gcloud@v1.1.1
+    - name: Google Cloud Auth
+      uses: 'google-github-actions/auth@v1'
       with:
-        project_id: ${{ secrets.GCP_PROJECT_ID }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
+        credentials_json: '${{secrets.GIT_CRYPT_KEY}}'
 
+    - name: Google Cloud Get Credentials
+      uses: 'google-github-actions/get-gke-credentials@v1'
+      with:
+        cluster_name: 'better-city-1'
+        location: 'europe-central2'
 
-    - name: Configure kubectl
+    - name: Configure Kubectl
       run: gcloud container clusters get-credentials better-city-1 --region europe-central2
 
     - name: Apply GKE Config
