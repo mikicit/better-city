@@ -29,8 +29,5 @@ jobs:
         cluster_name: 'better-city-1'
         location: 'europe-central2'
 
-    - name: Configure Kubectl
-      run: gcloud container clusters get-credentials better-city-1 --region europe-central2
-
     - name: Apply GKE Config
       run: kubectl apply -f k8s/dev/ # change to prod
