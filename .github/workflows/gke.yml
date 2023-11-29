@@ -1,0 +1,32 @@
+name: Apply GKE Config
+
+on:
+  push:
+    paths:
+      - 'k8s/dev/**/*' # change to prod
+  workflow_dispatch:
+jobs:
+  apply-config:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Git-Crypt unlock
+      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - name: Set up Google Cloud CLI
+      uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Configure kubectl
+      run: gcloud container clusters get-credentials better-city-1 --region europe-central2
+
+    - name: Apply GKE Config
+      run: kubectl apply -f k8s/dev/ # change to prod
