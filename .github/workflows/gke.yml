@@ -13,18 +13,18 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # - name: Git-Crypt unlock
-    #   uses: sliteteam/github-action-git-crypt-unlock@1.2.0
-    #   env:
-    #     GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
-
     - name: Git-Crypt unlock
-      run: |
-        sudo apt-get update -q
-        sudo apt-get install -y git-crypt
-        git config --global --add safe.directory $(pwd)
-        echo ${{ secrets.GIT_CRYPT_KEY }}
-        echo ${{ secrets.GIT_CRYPT_KEY }} | base64 --decode | git-crypt unlock /dev/stdin
+      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+    # - name: Git-Crypt unlock
+    #   run: |
+    #     sudo apt-get update -q
+    #     sudo apt-get install -y git-crypt
+    #     git config --global --add safe.directory $(pwd)
+    #     echo ${{ secrets.GIT_CRYPT_KEY }}
+    #     echo ${{ secrets.GIT_CRYPT_KEY }} | base64 --decode | git-crypt unlock /dev/stdin
 
     - name: Set up Google Cloud CLI
       uses: google-github-actions/setup-gcloud@v0.2.0
