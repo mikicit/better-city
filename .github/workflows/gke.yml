@@ -3,7 +3,7 @@ name: Apply GKE Config
 on:
   push:
     paths:
-      - 'k8s/dev/**/*' # change to prod
+      - 'k8s/prod/**/*'
   workflow_dispatch:
 jobs:
   apply-config:
@@ -30,4 +30,4 @@ jobs:
         location: 'europe-central2'
 
     - name: Apply GKE Config
-      run: kubectl apply -f k8s/dev/ # change to prod
+      run: kubectl apply -f k8s/prod/
