@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: issue-service-db
+  name: issue-service-db
+  namespace: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: issue-service-db
+  template:
+    metadata:
+      labels:
+        app: issue-service-db
+    spec:
+      containers:
+        - name: issue-service-db
+          image: postgis/postgis:15-3.3
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: issue-service-db
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: issue-service-db-credentials-db
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: issue-service-db-credentials-db
+                  key: password
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
