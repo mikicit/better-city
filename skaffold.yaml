@@ -45,27 +45,71 @@ build:
           '-DskipTests=true'
         ]
       }
+    - image: department-service
+      context: services/department-service
+      jib: {
+        args: [
+          '-Djib.to.image=department-service',
+          '-Djib.container.environment=SPRING_PROFILES_ACTIVE=development',
+          '-DskipTests=true'
+        ]
+      }
 deploy:
   kubectl:
     manifests:
-      - k8s/dev/00-database-namespace.yaml
-      - k8s/dev/00-kafka-namespace.yaml
-      - k8s/dev/20-gc-secret.yaml
-      - k8s/dev/20-issue-service-db-credentials-db.yaml
-      - k8s/dev/20-issue-service-db-credentials.yaml
-      - k8s/dev/20-notification-service-db-credentials-db.yaml
-      - k8s/dev/20-notification-service-db-credentials.yaml
-      - k8s/dev/30-issue-service-db-deployment.yaml
-      - k8s/dev/30-kafka-broker-deployment.yaml
-      - k8s/dev/30-notification-service-db-deployment.yaml
-      - k8s/dev/30-zookeeper-deployment.yaml
-      - k8s/dev/40-issue-service-db-service.yaml
-      - k8s/dev/40-kafka-broker-service.yaml
-      - k8s/dev/40-notification-service-db-service.yaml
-      - k8s/dev/40-zookeeper-service.yaml
+#      - k8s/dev/**/*.yaml
+      # Databases
+      - k8s/dev/0/00-database-namespace.yaml
+
+      # Department Service Database
+      - k8s/dev/3/00-department-service-db-credentials-db.yaml
+      - k8s/dev/4/00-department-service-db-deployment.yaml
+      - k8s/dev/5/00-department-service-db-service.yaml
+
+      # Issue Service Database
+      - k8s/dev/3/00-issue-service-db-credentials-db.yaml
+      - k8s/dev/4/00-issue-service-db-deployment.yaml
+      - k8s/dev/5/00-issue-service-db-service.yaml
+
+      # Notification Service Database
+      - k8s/dev/3/00-notification-service-db-credentials-db.yaml
+      - k8s/dev/4/00-notification-service-db-deployment.yaml
+      - k8s/dev/5/00-notification-service-db-service.yaml
+
+      # kafka
+      - k8s/dev/0/00-kafka-namespace.yaml
+      - k8s/dev/4/00-zookeeper-deployment.yaml
+      - k8s/dev/5/00-zookeeper-service.yaml
+      - k8s/dev/4/10-kafka-broker-deployment.yaml
+      - k8s/dev/5/10-kafka-broker-service.yaml
 
       # Services
-      - services/api-gateway/k8s/dev/*.yaml
-      - services/user-service/k8s/dev/*.yaml
-      - services/notification-service/k8s/dev/*.yaml
-      - services/issue-service/k8s/dev/*.yaml
+      - k8s/dev/3/00-gc-secret.yaml
+
+      # Api Gateway
+      - k8s/dev/4/20-api-gateway-deployment.yaml
+      - k8s/dev/5/20-api-gateway-service.yaml
+
+      # Department Service
+      - k8s/dev/3/00-department-service-db-credentials.yaml
+      - k8s/dev/4/20-department-service-deployment.yaml
+      - k8s/dev/5/20-department-service-service.yaml
+
+      # Issue Service
+      - k8s/dev/3/00-issue-service-db-credentials.yaml
+      - k8s/dev/4/20-issue-service-deployment.yaml
+      - k8s/dev/5/20-issue-service-service.yaml
+
+      # Notification Service
+      - k8s/dev/3/00-notification-service-db-credentials.yaml
+      - k8s/dev/4/20-notification-service-deployment.yaml
+      - k8s/dev/5/20-notification-service-service.yaml
+
+      # User Service
+      - k8s/dev/4/20-user-service-deployment.yaml
+      - k8s/dev/5/20-user-service-service.yaml
+
+      # Issue Service
+      - k8s/dev/3/00-issue-service-db-credentials.yaml
+      - k8s/dev/4/20-issue-service-deployment.yaml
+      - k8s/dev/5/20-issue-service-service.yaml
