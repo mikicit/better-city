@@ -18,8 +18,3 @@
 	url = git@github.com:mikicit/better-city-notification-service.git
 	branch = main
 	ignore = all
-[submodule "services/department-service"]
-	path = services/department-service
-	url = git@github.com:mikicit/better-city-department-service.git
-	branch = main
-	ignore = all
