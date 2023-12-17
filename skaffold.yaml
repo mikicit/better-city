@@ -45,26 +45,12 @@ build:
           '-DskipTests=true'
         ]
       }
-    - image: department-service
-      context: services/department-service
-      jib: {
-        args: [
-          '-Djib.to.image=department-service',
-          '-Djib.container.environment=SPRING_PROFILES_ACTIVE=development',
-          '-DskipTests=true'
-        ]
-      }
 deploy:
   kubectl:
     manifests:
 #      - k8s/dev/**/*.yaml
       # Databases
       - k8s/dev/0/00-database-namespace.yaml
-
-      # Department Service Database
-      - k8s/dev/3/00-department-service-db-credentials-db.yaml
-      - k8s/dev/4/00-department-service-db-deployment.yaml
-      - k8s/dev/5/00-department-service-db-service.yaml
 
       # Issue Service Database
       - k8s/dev/3/00-issue-service-db-credentials-db.yaml
@@ -90,11 +76,6 @@ deploy:
       - k8s/dev/4/20-api-gateway-deployment.yaml
       - k8s/dev/5/20-api-gateway-service.yaml
 
-      # Department Service
-      - k8s/dev/3/00-department-service-db-credentials.yaml
-      - k8s/dev/4/20-department-service-deployment.yaml
-      - k8s/dev/5/20-department-service-service.yaml
-
       # Issue Service
       - k8s/dev/3/00-issue-service-db-credentials.yaml
       - k8s/dev/4/20-issue-service-deployment.yaml
@@ -108,8 +89,3 @@ deploy:
       # User Service
       - k8s/dev/4/20-user-service-deployment.yaml
       - k8s/dev/5/20-user-service-service.yaml
-
-      # Issue Service
-      - k8s/dev/3/00-issue-service-db-credentials.yaml
-      - k8s/dev/4/20-issue-service-deployment.yaml
-      - k8s/dev/5/20-issue-service-service.yaml
